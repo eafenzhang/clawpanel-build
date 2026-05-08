@@ -65,7 +65,7 @@ jobs:
         run: bun run tauri build
         timeout-minutes: 30
 
-      - name: 重命名安装包
+      - name: 上传安装包到 Release
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -74,140 +74,26 @@ jobs:
           BUNDLE_DIR="src-tauri/target/release/bundle"
 
           # 创建 Release
-          gh release create "$TAG_NAME" --title "ClawPanel $TAG_NAME" \
-            --notes "正在准备安装包..." --draft=false || true
+          gh release create "$TAG_NAME" \
+            --title "ClawPanel $TAG_NAME" \
+            --notes "ClawPanel $TAG_NAME Windows 安装包" \
+            --draft=false
 
           # 上传 NSIS 安装包
-          if (Test-Path "${BUNDLE_DIR}/nsis/ClawPanel_${VERSION}_x64-setup.exe") {
-            gh release upload "$TAG_NAME" "${BUNDLE_DIR}/nsis/ClawPanel_${VERSION}_x64-setup.exe" --clobber
-          }
+          for f in "$BUNDLE_DIR"/nsis/*.exe; do
+            if [ -f "$f" ]; then
+              gh release upload "$TAG_NAME" "$f" --clobber
+            fi
+          done
 
           # 上传 MSI 安装包
-          if (Test-Path "${BUNDLE_DIR}/msi/ClawPanel_${VERSION}_x64_en-US.msi") {
-            gh release upload "$TAG_NAME" "${BUNDLE_DIR}/msi/ClawPanel_${VERSION}_x64_en-US.msi" --clobber
-          }
+          for f in "$BUNDLE_DIR"/msi/*.msi; do
+            if [ -f "$f" ]; then
+              gh release upload "$TAG_NAME" "$f" --clobber
+            fi
+          done
 
           # 上传独立可执行文件
-          if (Test-Path "src-tauri/target/release/ClawPanel.exe") {
+          if [ -f "src-tauri/target/release/ClawPanel.exe" ]; then
             gh release upload "$TAG_NAME" "src-tauri/target/release/ClawPanel.exe" --clobber
-          }
-
-  # ── 更新 Release Notes ───────────────────────────────────────────────────
-  update-release-notes:
-    name: 更新 Release Notes
-    needs: build
-    runs-on: ubuntu-latest
-    if: always() && needs.build.result != 'cancelled'
-    permissions:
-      contents: write
-
-    steps:
-      - name: 签出代码
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 设置版本标签
-        shell: bash
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> "$GITHUB_ENV"
-          else
-            echo "TAG_NAME=${{ github.ref_name }}" >> "$GITHUB_ENV"
           fi
-
-      - name: 生成并更新 Release Notes
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BUILD_RESULT: ${{ needs.build.result }}
-          REPO: ${{ github.repository }}
-        run: |
-          VERSION="${TAG_NAME#v}"
-          DL="https://github.com/${REPO}/releases/download/${TAG_NAME}"
-
-          # ── 生成分类 Changelog ──
-          PREV_TAG=$(git tag --sort=-v:refname | grep -E '^v' | sed -n '2p' || echo "")
-          if [ -n "$PREV_TAG" ]; then
-            RANGE="${PREV_TAG}..HEAD"
-            CHANGELOG_HEADER="自 ${PREV_TAG} 以来的变更"
-          else
-            RANGE=""
-            CHANGELOG_HEADER="主要变更"
-          fi
-
-          # 按 conventional commit 前缀分类
-          get_logs() {
-            local prefix="$1"
-            if [ -n "$RANGE" ]; then
-              git log "$RANGE" --pretty=format:"%s" --no-merges | { grep -iE "^${prefix}" || true; } | sed "s/^${prefix}[:(] */- /" | head -20
-            else
-              git log --pretty=format:"%s" --no-merges -30 | { grep -iE "^${prefix}" || true; } | sed "s/^${prefix}[:(] */- /" | head -20
-            fi
-          }
-
-          FEATS=$(get_logs "feat")
-          FIXES=$(get_logs "fix")
-          OTHERS=$(
-            if [ -n "$RANGE" ]; then
-              git log "$RANGE" --pretty=format:"%s" --no-merges | { grep -ivE "^(feat|fix|style|chore|ci|docs|test|build)" || true; } | sed 's/^/- /' | head -10
-            else
-              git log --pretty=format:"%s" --no-merges -30 | { grep -ivE "^(feat|fix|style|chore|ci|docs|test|build)" || true; } | sed 's/^/- /' | head -10
-            fi
-          )
-
-          CHANGELOG_BODY=""
-          if [ -n "$FEATS" ]; then
-            CHANGELOG_BODY="${CHANGELOG_BODY}"$'\n### ✨ 新功能\n'"${FEATS}"$'\n'
-          fi
-          if [ -n "$FIXES" ]; then
-            CHANGELOG_BODY="${CHANGELOG_BODY}"$'\n### 🐛 修复\n'"${FIXES}"$'\n'
-          fi
-          if [ -n "$OTHERS" ]; then
-            CHANGELOG_BODY="${CHANGELOG_BODY}"$'\n### 📦 其他\n'"${OTHERS}"$'\n'
-          fi
-          if [ -z "$CHANGELOG_BODY" ]; then
-            CHANGELOG_BODY=$'\n- 常规更新与优化\n'
-          fi
-
-          # ── 构建状态 ──
-          if [ "$BUILD_RESULT" = "success" ]; then
-            STATUS_BADGE="✅ Windows 构建成功"
-          else
-            STATUS_BADGE="⚠️ 构建失败，请查看 [Actions 日志](https://github.com/${REPO}/actions)"
-          fi
-
-          # ── 写入 Release Notes ──
-          {
-            echo "${STATUS_BADGE}"
-            echo ""
-            echo "## 📥 下载安装"
-            echo ""
-            echo "| 格式 | 安装包 | 说明 |"
-            echo "|------|--------|------|"
-            echo "| EXE 安装器 | [ClawPanel_${VERSION}_x64-setup.exe](${DL}/ClawPanel_${VERSION}_x64-setup.exe) | 推荐下载 |"
-            echo "| MSI 安装器 | [ClawPanel_${VERSION}_x64_en-US.msi](${DL}/ClawPanel_${VERSION}_x64_en-US.msi) | MSI 格式 |"
-            echo "| 独立程序 | [ClawPanel.exe](${DL}/ClawPanel.exe) | 无需安装 |"
-            echo ""
-            echo "> **💡 安装说明**：EXE 安装器会自动安装，MSI 适用于企业批量部署。"
-            echo ""
-            echo "---"
-            echo ""
-            echo "## 🚀 首次使用"
-            echo ""
-            echo "1. 下载并运行安装包"
-            echo "2. 首次运行会自动检测 Node.js 环境"
-            echo "3. 按提示完成初始化"
-            echo ""
-            echo '> **系统要求**：Windows 10/11 (64位)'"
-            echo ""
-            echo "---"
-            echo ""
-            echo "## ${CHANGELOG_HEADER}"
-            echo "${CHANGELOG_BODY}"
-            echo "---"
-            echo ""
-            echo "📖 [项目主页](https://github.com/${REPO}) · 💬 [反馈问题](https://github.com/${REPO}/issues)"
-          } > release_body.md
-
-          gh release edit "$TAG_NAME" --notes-file release_body.md
