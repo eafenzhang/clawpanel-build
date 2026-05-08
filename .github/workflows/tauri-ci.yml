@@ -13,6 +13,7 @@ jobs:
         platform: [windows-latest]
 
     runs-on: ${{ matrix.platform }}
+    timeout-minutes: 30
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,6 +35,11 @@ jobs:
 
       - name: Install frontend dependencies
         run: bun install
+        timeout-minutes: 5
+
+      - name: Build frontend
+        run: bun run build
+        timeout-minutes: 5
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
@@ -46,3 +52,4 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: --ci
+        timeout-minutes: 20
