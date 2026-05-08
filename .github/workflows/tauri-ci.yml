@@ -13,7 +13,8 @@ jobs:
         platform: [windows-latest]
 
     runs-on: ${{ matrix.platform }}
-    timeout-minutes: 30
+    timeout-minutes: 45
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,21 +36,19 @@ jobs:
 
       - name: Install frontend dependencies
         run: bun install
-        timeout-minutes: 5
 
       - name: Build frontend
         run: bun run build
-        timeout-minutes: 5
 
       - name: Build Tauri app
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun run tauri build
+        timeout-minutes: 30
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
-          tagName: v__VERSION__
-          releaseName: 'ClawPanel v__VERSION__'
-          releaseBody: 'See the assets to download and install this version.'
-          releaseDraft: true
-          prerelease: false
-          args: --ci
-        timeout-minutes: 20
+          name: clawpanel-windows
+          path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/ClawPanel.exe
+          retention-days: 7
