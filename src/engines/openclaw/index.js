@@ -38,7 +38,6 @@ export default {
         section: '',
         items: [
           { route: '/setup', label: t('sidebar.setup'), icon: 'setup' },
-          { route: '/assistant', label: t('sidebar.assistant'), icon: 'assistant' },
         ]
       }, {
         section: '',
@@ -53,7 +52,6 @@ export default {
       section: t('sidebar.sectionMonitor'),
       items: [
         { route: '/dashboard', label: t('sidebar.dashboard'), icon: 'dashboard' },
-        { route: '/assistant', label: t('sidebar.assistant'), icon: 'assistant' },
         { route: '/chat', label: t('sidebar.chat'), icon: 'chat' },
         { route: '/route-map', label: t('sidebar.routeMap'), icon: 'route-map' },
         { route: '/services', label: t('sidebar.services'), icon: 'services' },
@@ -110,7 +108,6 @@ export default {
       { path: '/skills', loader: () => import('../../pages/skills.js') },
       { path: '/security', loader: () => import('../../pages/security.js') },
       { path: '/about', loader: () => import('../../pages/about.js') },
-      { path: '/assistant', loader: () => import('../../pages/assistant.js') },
       { path: '/setup', loader: () => import('../../pages/setup.js') },
       { path: '/channels', loader: () => import('../../pages/channels.js') },
       { path: '/cron', loader: () => import('../../pages/cron.js') },

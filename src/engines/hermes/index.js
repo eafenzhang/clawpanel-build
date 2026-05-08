@@ -60,7 +60,6 @@ export default {
         section: '',
         items: [
           { route: '/h/setup', label: t('sidebar.setup'), icon: 'setup' },
-          { route: '/assistant', label: t('sidebar.assistant'), icon: 'assistant' },
         ]
       }, {
         section: '',
@@ -91,7 +90,6 @@ export default {
     }, {
       section: '',
       items: [
-        { route: '/assistant', label: t('sidebar.assistant'), icon: 'assistant' },
         { route: '/settings', label: t('sidebar.settings'), icon: 'settings' },
         { route: '/about', label: t('sidebar.about'), icon: 'about' },
       ]
@@ -116,7 +114,6 @@ export default {
       { path: '/h/channels', loader: () => import('./pages/channels.js') },
       { path: '/h/env', loader: () => import('./pages/env-editor.js') },
       // 共用页面（引擎无关）
-      { path: '/assistant', loader: () => import('../../pages/assistant.js') },
       { path: '/settings', loader: () => import('../../pages/settings.js') },
       { path: '/about', loader: () => import('../../pages/about.js') },
     ]

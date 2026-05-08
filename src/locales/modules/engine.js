@@ -661,12 +661,9 @@ export default {
   comingSoonPhase2: _('即将在 Phase 2 中推出', 'Coming in Phase 2', '即將在 Phase 2 中推出'),
 
   // ============================================================
-  // 心甜Claw（Xintian Claw）· 产品宣传页
   // ============================================================
-  xintianNavHome: _('产品首页', 'Home', '產品首頁', 'ホーム', '홈', 'Trang chủ', 'Inicio', 'Início', 'Главная', 'Accueil', 'Startseite'),
 
   // Hero
-  xtHeroEyebrow: _('心甜Claw · 跨平台 AI 省心助手', 'Xintian Claw · Worry-free AI Companion', '心甜Claw · 跨平台 AI 省心助手', '心甜Claw · 手間いらずの AI コンパニオン', '心甜Claw · 근심 없는 AI 동반자'),
   xtHeroTitleLead: _('WINDOWS 安装即用', 'READY FOR WINDOWS', 'WINDOWS 安裝即用', 'WINDOWS 用すぐに使える', 'WINDOWS에서 바로 사용'),
   xtHeroTitleA: _('不只是对话，是会', 'Not just chat —', '不只是對話，是會'),
   xtHeroTitleB: _('记得你', 'an AI that remembers you', '記得你'),
@@ -676,8 +673,6 @@ export default {
     'Desktop client, SaaS backend, persistent memory, and multi-channel delivery — install once and let AI keep working for you.',
     '桌面客戶端 + SaaS 後端 + 長期記憶 + 多頻道，一次安裝，讓 AI 真正長期為你幹活。',
   ),
-  xtCtaDownloadWin: _('下载 Windows 版', 'Download for Windows', '下載 Windows 版', 'Windows 版をダウンロード', 'Windows 버전 다운로드'),
-  xtCtaVisitSite: _('访问官网', 'Visit website', '訪問官網', '公式サイトへ', '공식 웹사이트'),
   xtHeroPlatformWin: _('Windows 10 / 11 · x64', 'Windows 10 / 11 · x64', 'Windows 10 / 11 · x64'),
   xtHeroPlatformRest: _('macOS / Linux 即将上线', 'macOS / Linux coming soon', 'macOS / Linux 即將上線', 'macOS / Linux 近日公開', 'macOS / Linux 곧 출시'),
   xtHeroFreeTrial: _('预置 2 个免费 Agent', '2 free agents included', '預置 2 個免費 Agent', '2 つの無料エージェント付き', '무료 에이전트 2개 포함'),
@@ -695,7 +690,6 @@ export default {
   xtFeatChatTitle: _('流式对话 × 思维链', 'Streaming chat × CoT', '串流對話 × 思維鏈'),
   xtFeatChatDesc: _('工具调用与思考过程全程可见，Markdown / 代码 / 表格原生渲染。', 'Full visibility into tool calls and reasoning, with native Markdown / code / table rendering.', '工具調用與思考過程全程可見，Markdown / 程式碼 / 表格原生渲染。'),
   xtFeatAgentTitle: _('多智能体 Agent 体系', 'Multi-agent roster', '多智能體 Agent 體系'),
-  xtFeatAgentDesc: _('预置心甜 + 晴辰两个助手，独立人设与记忆，可随时自定义。', 'Bundled Xintian & Qingchen assistants, each with its own persona and memory — fully customizable.', '預置心甜 + 晴辰兩個助手，獨立人設與記憶，可隨時自定義。'),
   xtFeatMemoryTitle: _('心甜智脑 · 长期记忆', 'Sweet Brain · Long-term memory', '心甜智腦 · 長期記憶'),
   xtFeatMemoryDesc: _('事实 + 对话双层记忆，跨渠道共享，桌面说过的话微信也能想起来。', 'Dual-layer memory (facts + conversations) shared across channels — it remembers what you said, everywhere.', '事實 + 對話雙層記憶，跨頻道共享，桌面說過的話微信也能想起來。'),
   xtFeatRagTitle: _('知识库 × RAG', 'Knowledge base × RAG', '知識庫 × RAG'),
@@ -707,11 +701,9 @@ export default {
   xtFeatChannelTitle: _('多消息渠道', 'Multi-channel delivery', '多訊息頻道'),
   xtFeatChannelDesc: _('飞书 / 微信 / Telegram 等消息渠道互通，一套记忆跟你到每个对话窗。', 'Feishu / WeChat / Telegram all connected — one memory follows you to every conversation.', '飛書 / 微信 / Telegram 等訊息頻道互通，一套記憶跟你到每個對話窗。'),
   xtFeatOfflineTitle: _('离线 × 本地优先', 'Offline × local-first', '離線 × 本地優先'),
-  xtFeatOfflineDesc: _('核心数据存本地 ~/.xintian-claw，断网队列补发，多后端容灾。', 'Core data stored locally at ~/.xintian-claw, offline queue + multi-backend failover.', '核心資料存本地 ~/.xintian-claw，斷網佇列補發，多後端容災。'),
 
   // Compare 区域
   xtCompareEyebrow: _('产品定位', 'POSITIONING', '產品定位'),
-  xtCompareTitle: _('同一份心甜 · 不同的打开方式', 'One Xintian, three ways to open it', '同一份心甜 · 不同的打開方式'),
   xtCompareSub: _(
     '根据你的身份选择最合适的入口：开发者用框架、工程师用 Python、普通用户用桌面版。',
     'Pick the entrance that fits you: framework for developers, Python for engineers, desktop client for everyone else.',
@@ -724,26 +716,15 @@ export default {
   xtCompareBDesc: _('轻量级 Agent 框架，工具调用能力强，一键 uv 安装，快速集成。', 'Lightweight Agent framework with strong tool-calling, one-click uv install, fast integration.', '輕量級 Agent 框架，工具呼叫能力強，一鍵 uv 安裝，快速整合。'),
   xtCompareBForWho: _('面向 Python 工程师', 'For Python engineers', '面向 Python 工程師'),
   xtComparePosC: _('所有普通用户', 'EVERYONE', '所有普通使用者'),
-  xtCompareCTitle: _('心甜Claw', 'Xintian Claw', '心甜Claw'),
   xtCompareCDesc: _('Windows 双击安装即可用，内置 Agent 与记忆，不写一行代码也能上手。', 'Double-click install on Windows — agents and memory out of the box, zero code required.', 'Windows 雙擊安裝即可用，內建 Agent 與記憶，不寫一行程式碼也能上手。'),
   xtCompareCForWho: _('面向日常使用者', 'For everyday users', '面向日常使用者'),
   xtCompareRecommend: _('推荐', 'RECOMMENDED', '推薦'),
 
   // CTA 区域
-  xtCtaEyebrow: _('立即开始', 'GET STARTED', '立即開始'),
-  xtCtaTitle: _('今天装上 · 明天就离不开', 'Install today, depend on it tomorrow', '今天裝上 · 明天就離不開'),
-  xtCtaSub: _(
-    '下载 Windows 安装包、双击运行，登录账号即可开始使用。无需配置 Python、无需命令行。',
-    'Download the Windows installer, double-click, sign in — ready to chat. No Python, no terminal.',
-    '下載 Windows 安裝包、雙擊執行，登入帳號即可開始使用。無需配置 Python、無需命令列。',
-  ),
   xtBulletInstall: _('一次安装 · 自动更新', 'One-click install · auto update', '一次安裝 · 自動更新'),
   xtBulletLogin: _('微信 / 邮箱登录', 'WeChat / Email sign-in', '微信 / 信箱登入'),
   xtBulletSync: _('多设备记忆同步', 'Multi-device memory sync', '多裝置記憶同步'),
   xtBulletSafe: _('核心数据本地加密', 'Core data encrypted locally', '核心資料本地加密'),
-  xtCtaPrimary: _('立即下载 Windows 版', 'Download for Windows', '立即下載 Windows 版'),
-  xtCtaSecondary: _('了解更多', 'Learn more', '了解更多'),
-  xtCtaLinkLabel: _('官网', 'WEBSITE', '官網'),
 
   // Preview 气泡
   xtPreviewGreet: _('你好呀，今天想让我帮你处理什么？', 'Hi! How can I help you today?', '你好呀，今天想讓我幫你處理什麼？'),
@@ -753,8 +734,4 @@ export default {
   xtPreviewFoot: _('由 心甜智脑 长期记忆支持', 'Powered by Sweet Brain long-term memory', '由 心甜智腦 長期記憶支援'),
 
   // Footer
-  xtFootBrand: _('心甜Claw · 跨平台 AI 省心助手', 'Xintian Claw · Worry-free AI Companion', '心甜Claw · 跨平台 AI 省心助手'),
-  xtFootHome: _('官网', 'Website', '官網'),
-  xtFootDownload: _('下载', 'Download', '下載'),
-  xtFootSupport: _('帮助中心', 'Help Center', '幫助中心'),
 }

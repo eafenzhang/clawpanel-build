@@ -52,7 +52,7 @@ function _canShow() {
   if (localStorage.getItem(KEYS.todayDismiss) === _todayKey()) return false
   // 避免在聊天/助手页面打断对话
   const hash = location.hash || ''
-  if (hash.includes('/chat') || hash.includes('/assistant')) return false
+  if (hash.includes('/chat') ) return false
   return true
 }
 

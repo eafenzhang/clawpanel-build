@@ -5,7 +5,6 @@ import { api } from '../lib/tauri-api.js'
 import { toast } from '../components/toast.js'
 import { navigate } from '../router.js'
 import { t } from '../lib/i18n.js'
-import { openAIDrawerWithError } from '../components/ai-drawer.js'
 
 const PLUGIN_ICONS = {
   qqbot: '🐧', feishu: '🪶', dingtalk: '📌', telegram: '✈️',

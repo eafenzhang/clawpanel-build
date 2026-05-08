@@ -606,19 +606,7 @@ ${t('setup.promptOutro')}`
 }
 
 function bindEvents(page, nodeOk, detectState) {
-  // 打开 AI 助手
-  page.querySelector('#btn-goto-assistant')?.addEventListener('click', () => {
-    window.location.hash = '/assistant'
-  })
 
-  // 让 AI 帮我解决（带问题上下文）
-  page.querySelector('#btn-ask-ai-help')?.addEventListener('click', () => {
-    if (detectState) {
-      const prompt = buildSetupProblemPrompt(detectState)
-      sessionStorage.setItem('assistant-auto-prompt', prompt)
-    }
-    window.location.hash = '/assistant'
-  })
 
   // 进入面板（刷新引擎 ready 状态，触发侧边栏更新）
   async function refreshAndNavigate(route) {

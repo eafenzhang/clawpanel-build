@@ -385,15 +385,6 @@ export const api = {
   pairingApproveChannel: (channel, code, notify = false) => invoke('pairing_approve_channel', { channel, code, notify }),
 
   // AI 助手工具
-  assistantExec: (command, cwd) => invoke('assistant_exec', { command, cwd: cwd || null }),
-  assistantReadFile: (path) => invoke('assistant_read_file', { path }),
-  assistantWriteFile: (path, content) => invoke('assistant_write_file', { path, content }),
-  assistantListDir: (path) => invoke('assistant_list_dir', { path }),
-  assistantSystemInfo: () => invoke('assistant_system_info'),
-  assistantListProcesses: (filter) => invoke('assistant_list_processes', { filter: filter || null }),
-  assistantCheckPort: (port) => invoke('assistant_check_port', { port }),
-  assistantWebSearch: (query, maxResults) => invoke('assistant_web_search', { query, max_results: maxResults || 5 }),
-  assistantFetchUrl: (url) => invoke('assistant_fetch_url', { url }),
 
   // Skills 管理
   skillsList: (agentId) => invoke('skills_list', { agent_id: agentId || null }),
@@ -438,10 +429,6 @@ export const api = {
   getUpdateStatus: () => invoke('get_update_status'),
 
   // 数据目录 & 图片存储
-  ensureDataDir: () => invoke('assistant_ensure_data_dir'),
-  saveImage: (id, data) => invoke('assistant_save_image', { id, data }),
-  loadImage: (id) => invoke('assistant_load_image', { id }),
-  deleteImage: (id) => invoke('assistant_delete_image', { id }),
 
   // Hermes Agent 管理
   checkPython: () => cachedInvoke('check_python', {}, 60000),

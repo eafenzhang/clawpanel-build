@@ -23,7 +23,7 @@ import { showFloorBlocker, hideFloorBlocker } from './components/floor-blocker.j
 import { registerEngine, initEngineManager, getActiveEngine, getActiveEngineId, onEngineChange } from './lib/engine-manager.js'
 import openclawEngine from './engines/openclaw/index.js'
 import hermesEngine from './engines/hermes/index.js'
-import xintianEngine from './engines/xintian/index.js'
+
 
 // 样式
 import './style/variables.css'
@@ -34,11 +34,11 @@ import './style/pages.css'
 import './style/chat.css'
 import './style/agents.css'
 import './style/debug.css'
-import './style/assistant.css'
-import './style/ai-drawer.css'
+
+
 // 引擎专属样式（scope 到 [data-engine="<id>"] 子树，不影响其他引擎）
 import './engines/hermes/style/hermes.css'
-import './engines/xintian/style/xintian.css'
+
 
 // 初始化主题 + 国际化
 initTheme()
@@ -322,7 +322,6 @@ async function boot() {
   // 注册引擎
   registerEngine(openclawEngine)
   registerEngine(hermesEngine)
-  registerEngine(xintianEngine)
 
   // 初始化引擎管理器：读取 clawpanel.json 的 engineMode，注册对应路由
   await initEngineManager()
@@ -956,65 +955,4 @@ function startUpdateChecker() {
   }
   startUpdateChecker()
 
-  // 初始化全局 AI 助手浮动按钮（延迟加载，不阻塞启动）
-  setTimeout(async () => {
-    const { initAIFab, registerPageContext, openAIDrawerWithError } = await import('./components/ai-drawer.js')
-    initAIFab()
-
-    // 注册各页面上下文提供器
-    registerPageContext('/chat-debug', async () => {
-      const { isOpenclawReady, isGatewayRunning } = await import('./lib/app-state.js')
-      const { wsClient } = await import('./lib/ws-client.js')
-      const { api } = await import('./lib/tauri-api.js')
-      const lines = ['## 系统诊断快照']
-      lines.push(`- OpenClaw: ${isOpenclawReady() ? '就绪' : '未就绪'}`)
-      lines.push(`- Gateway: ${isGatewayRunning() ? '运行中' : '未运行'}`)
-      lines.push(`- WebSocket: ${wsClient.connected ? '已连接' : '未连接'}`)
-      try {
-        const node = await api.checkNode()
-        lines.push(`- Node.js: ${node?.version || '未知'}`)
-      } catch {}
-      try {
-        const ver = await api.getVersionInfo()
-        lines.push(`- 版本: 当前 ${ver?.current || '?'} / 推荐 ${ver?.recommended || '?'} / 最新 ${ver?.latest || '?'}${ver?.ahead_of_recommended ? ' / 当前版本高于推荐版' : ''}`)
-      } catch {}
-      return { detail: lines.join('\n') }
-    })
-
-    registerPageContext('/services', async () => {
-      const { isGatewayRunning } = await import('./lib/app-state.js')
-      const { api } = await import('./lib/tauri-api.js')
-      const lines = ['## 服务状态']
-      lines.push(`- Gateway: ${isGatewayRunning() ? '运行中' : '未运行'}`)
-      try {
-        const svc = await api.getServicesStatus()
-        if (svc?.[0]) {
-          lines.push(`- CLI: ${svc[0].cli_installed ? '已安装' : '未安装'}`)
-          lines.push(`- PID: ${svc[0].pid || '无'}`)
-        }
-      } catch {}
-      return { detail: lines.join('\n') }
-    })
-
-    registerPageContext('/gateway', async () => {
-      const { api } = await import('./lib/tauri-api.js')
-      try {
-        const config = await api.readOpenclawConfig()
-        const gw = config?.gateway || {}
-        const lines = ['## Gateway 配置']
-        lines.push(`- 端口: ${gw.port || 18789}`)
-        lines.push(`- 模式: ${gw.mode || 'local'}`)
-        lines.push(`- Token: ${gw.auth?.token ? '已设置' : '未设置'}`)
-        if (gw.controlUi?.allowedOrigins) lines.push(`- Origins: ${JSON.stringify(gw.controlUi.allowedOrigins)}`)
-        return { detail: lines.join('\n') }
-      } catch { return null }
-    })
-
-    registerPageContext('/setup', () => {
-      return { detail: '用户正在进行 OpenClaw 初始安装，请帮助检查 Node.js 环境和网络状况' }
-    })
-
-    // 挂到全局，供安装/升级失败时调用
-    window.__openAIDrawerWithError = openAIDrawerWithError
-  }, 500)
 })()

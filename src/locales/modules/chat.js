@@ -139,7 +139,6 @@ export default {
   hostedBadge: _('托管', 'Hosted'),
   taskGoal: _('任务目标', 'Task Goal', '任務目標'),
   taskGoalPlaceholder: _('例如：持续优化此仓库代码质量，直到没有可改进的地方', 'e.g. Continuously optimize code quality until no improvements remain', '例如：持續最佳化此倉庫代碼質量，直到沒有可改進的地方'),
-  hostedHint: _('托管 Agent 会持续引导 OpenClaw 完成此目标。模型使用 <a href="#/assistant" class="hosted-agent-link">AI 助手</a> 的配置。', 'Hosted Agent will continuously guide OpenClaw to complete this goal. Uses <a href="#/assistant" class="hosted-agent-link">AI Assistant</a> model config.', '托管 Agent 會持續引导 OpenClaw 完成此目標。模型使用 <a href="#/assistant" class="hosted-agent-link">AI 助手</a> 的設定。'),
   maxReplies: _('最大回复次数', 'Max Replies', '最大回覆次數'),
   timerAutoStop: _('定时自动停止', 'Auto-stop Timer', '定時自動停止'),
   startHosted: _('启动托管', 'Start Hosted', '啟動托管'),

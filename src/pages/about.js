@@ -55,34 +55,12 @@ export async function render() {
 
   const activeEngineId = getActiveEngineId()
 
-  if (activeEngineId === 'xintian') {
-    // 心甜Claw 是产品宣传入口，不展示 OpenClaw/Hermes 的版本、安装路径与社群信息
-    loadXintianData(page)
-  } else if (activeEngineId === 'hermes') {
-    loadHermesData(page)
+  if (activeEngineId === 'hermes') {
+    await loadHermesData(page)
   } else {
-    loadData(page)
+    await loadData(page)
   }
 
-  // 社群二维码是 OpenClaw 专属渠道，对 xintian 用户不相关
-  if (activeEngineId === 'xintian') {
-    page.querySelector('#community-section')?.closest('.config-section')?.remove()
-  } else {
-    renderCommunity(page)
-  }
-
-  renderProjects(page)
-  renderContribute(page)
-  renderLinks(page)
-  renderCompany(page)
-  return page
-}
-
-/**
- * 心甜Claw 模式下的 about 页面：只展示 ClawPanel 自身版本 + 产品卡片，
- * 不涉及 OpenClaw 的版本切换与安装路径。
- */
-async function loadXintianData(page) {
   const cards = page.querySelector('#version-cards')
   const panelVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0.1.0'
   const panelUpdateHtml = `<span style="color:var(--text-tertiary)">${t('about.checkingUpdate')}</span>`
